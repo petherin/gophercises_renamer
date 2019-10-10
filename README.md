@@ -2,6 +2,59 @@
 
 [![exercise status: released](https://img.shields.io/badge/exercise%20status-released-green.svg?style=for-the-badge)](https://gophercises.com/exercises/renamer)
 
+## Solution
+
+This is a solution to the Gophercise exercise below.
+
+Renames files where the filename is in the format:
+ 
+`basename_nnn.ext`
+
+e.g.
+
+`birthday_001.txt`
+
+`birthday_002.txt`
+
+`birthday_003.txt`
+
+`birthday_004.txt`
+
+These would be renamed:
+
+`birthday (1 of 4).txt`
+
+`birthday (2 of 4).txt`
+
+`birthday (3 of 4).txt`
+
+`birthday (4 of 4).txt`
+
+The `of 4` part comes from the final number of the group of files, as opposed to the actual number of files. So this:
+
+`n_008.txt`
+
+`n_009.txt`
+
+`n_010.txt`
+
+would become:
+
+`n (8 of 10).txt`
+
+`n (9 of 10).txt`
+
+`n (10 of 10).txt`
+
+### Usage
+
+Flags
+
+| Name        | Default           | Description  |
+| ------------- |:-------------:| -----:|
+| -dryrun      | true | when true, no files will be renamed, just a log of what would have happened
+|
+
 ## Exercise details
 
 In this exercise we are going to explore ways to navigate a file system by creating an application that will rename a bunch of user files in nested directories. The exact files you rename are up to you, but I have provided a sample directory in case you need some ideas. It has the files and directories shown below.

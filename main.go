@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -17,6 +19,30 @@ type fileData struct {
 const root = "sample"
 
 func main() {
+	safe := flag.Bool("safe", true, "when true, no files will be renamed, just a log of what would have happened")
+	flag.Parse()
+
+	safeMsg :=""
+	if *safe {
+		fmt.Print("In safe mode, no files will be renamed.\n")
+		safeMsg = " (safe mode)"
+	} else {
+		fmt.Print("Not in safe mode, files will be renamed. Proceed (y/n)?\n")
+		reader := bufio.NewReader(os.Stdin)
+		char, _, err := reader.ReadRune()
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		switch char {
+		case 'y', 'Y':
+			fmt.Println("Starting rename...\n")
+		default:
+			return
+		}
+	}
+
 	filesToRename := map[string][]fileData{}
 	group := ""
 
@@ -65,6 +91,12 @@ func main() {
 			}
 
 			newName := fmt.Sprintf("%s (%s of %s).txt", pathKey, fileGroup[i].number, maxNum)
+			fmt.Printf("Renaming %s to %s%s\n", fileGroup[i].fileName, newName, safeMsg)
+
+			if *safe {
+				continue
+			}
+
 			err := os.Rename(fileGroup[i].fileName, newName)
 			if err != nil {
 				fmt.Printf("error occured: %s\n", err)
